@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minimal Weather App</title>
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="./images/weather-app.png"
+      sizes="32x32"
+      type="image/png"
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <main class="card">
+      <!-- App Title with version badge -->
+      <div class="app-title">
+        <h1>Minimal <span class="highlight">Weather</span> App</h1>
+        <span class="version">v1.0</span>
+      </div>
+
+      <!-- Weather Search Form -->
+      <form class="search" autocomplete="off">
+        <input
+          type="text"
+          placeholder="Enter a city name"
+          aria-label="City name"
+          spellcheck="false"
+        />
+        <button type="submit">
+          <img src="./images/search.png" alt="Search Icon" />
+        </button>
+      </form>
+
+      <!-- Loading spinner -->
+      <div class="loading" aria-hidden="true"></div>
+
+      <!-- Error message -->
+      <div class="error" role="alert">Invalid or empty city name</div>
+
+      <!-- Weather content -->
+      <div class="weather">
+        <img src="./images/rain.png" alt="Weather Icon" class="weather-icon" />
+        <h1 class="temp">21°C</h1>
+        <h2 class="city">Netrakona</h2>
+
+        <div class="details">
+          <div class="col">
+            <img src="./images/humidity.png" alt="Humidity Icon" />
+            <div>
+              <p class="humidity">51%</p>
+              <p>Humidity</p>
+            </div>
+          </div>
+          <div class="col">
+            <img src="./images/wind.png" alt="Wind Icon" />
+            <div>
+              <p class="wind">21 km/h</p>
+              <p>Wind Speed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>
+          Developed by <span class="heart">❤</span>
+          <span class="name">Sagor Mia</span>
+        </p>
+      </div>
+    </main>
+
+    <!-- JS -->
+    <script src="./main.js"></script>
+  </body>
+</html>
