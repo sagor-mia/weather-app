@@ -26,32 +26,27 @@
   </head>
   <body>
     <main class="card">
-      <!-- App Title with version badge -->
       <div class="app-title">
         <h1>Minimal <span class="highlight">Weather</span> App</h1>
         <span class="version">v1.5</span>
       </div>
 
-      <!-- Weather Search Form -->
       <form class="search" autocomplete="off">
         <input
           type="text"
           placeholder="Enter a city name"
           aria-label="City name"
           spellcheck="false"
+          class="placeholder-cursor"
         />
         <button type="submit">
           <img src="./images/search.png" alt="Search Icon" />
         </button>
       </form>
 
-      <!-- Loading spinner -->
       <div class="loading" aria-hidden="true"></div>
-
-      <!-- Error message -->
       <div class="error" role="alert">Invalid or empty city name</div>
 
-      <!-- Weather content -->
       <div class="weather">
         <img src="./images/rain.png" alt="Weather Icon" class="weather-icon" />
         <h1 class="temp">21°C</h1>
@@ -75,7 +70,6 @@
         </div>
       </div>
 
-      <!-- Footer -->
       <div class="footer">
         <p>
           Developed by <span class="heart">❤</span>
@@ -84,7 +78,6 @@
       </div>
     </main>
 
-    <!-- JS -->
     <script src="./main.js"></script>
   </body>
 </html>

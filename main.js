@@ -1,8 +1,3 @@
-// ==============================
-// Minimal Weather App JS - v1.5 Ultimate
-// Features: Animated placeholder, blinking gradient cursor, instant lastCity update, responsive, fade-in weather
-// ==============================
-
 const apiKey = "029e72f96a6264c206b122ea1a6ef5ad";
 const apiUrl =
   "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
@@ -27,9 +22,6 @@ const iconMap = {
   Haze: "./images/haze.png",
 };
 
-// ==============================
-// Weather Functions
-// ==============================
 function showError(message) {
   errorDisplay.textContent = message;
   errorDisplay.style.display = "block";
@@ -57,7 +49,6 @@ function displayWeather(data) {
   searchInput.blur();
 
   localStorage.setItem("lastCity", data.name);
-
   typePlaceholderInstant();
 }
 
@@ -80,9 +71,6 @@ function handleFormSubmit(e) {
   else showError("Please enter a city name");
 }
 
-// ==============================
-// Enter Key Handling
-// ==============================
 searchInput.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
     e.preventDefault();
@@ -92,7 +80,7 @@ searchInput.addEventListener("keydown", function (e) {
 });
 
 // ==============================
-// Animated Placeholder Logic v1.5
+// Placeholder Typing v1.5 Ultimate
 // ==============================
 let typingTimeout;
 let typingIndex = 0;
@@ -122,8 +110,6 @@ function typeNextText() {
   const fullText = placeholderTexts[textIndex];
   const speed = Math.max(50, 200 / fullText.length);
 
-  searchInput.classList.add("placeholder-cursor");
-
   function typeLetter() {
     if (typingIndex < fullText.length) {
       currentText += fullText[typingIndex];
@@ -151,8 +137,6 @@ function typePlaceholderInstant() {
   typingIndex = 0;
   const speed = Math.max(30, 150 / text.length);
 
-  searchInput.classList.add("placeholder-cursor");
-
   function typeLetter() {
     if (typingIndex < text.length) {
       currentText += text[typingIndex];
@@ -167,9 +151,7 @@ function typePlaceholderInstant() {
   typeLetter();
 }
 
-// ==============================
 // Initialize App
-// ==============================
 function loadLastCity() {
   startTypingAnimation();
   const lastCity = localStorage.getItem("lastCity");

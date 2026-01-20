@@ -132,15 +132,17 @@ body {
   opacity: 1;
 }
 
+/* Add this to your CSS */
 .placeholder-cursor::after {
-  content: "|";
-  display: inline-block;
-  margin-left: 1px;
-  animation: blink 1s infinite;
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 12px; /* space from input end */
+  transform: translateY(-50%);
+  width: 2px;
+  height: 1em;
   background: linear-gradient(90deg, #00feba, #5b548a, #f87171);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: bold;
+  animation: blink 1s step-start infinite;
 }
 
 .search button {
