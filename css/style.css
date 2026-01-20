@@ -318,7 +318,58 @@ body {
     margin-right: 0;
   }
   .footer {
-    font-size: 13px;
+    font-size: 14px;
     margin-top: 20px;
+  }
+}
+
+@media (max-width: 360px) and (max-height: 640px) {
+  .card {
+    padding: 20px 18px;
+    margin: 20px auto 0;
+  }
+
+  .weather {
+    margin-top: 10px;
+  }
+  .weather h1 {
+    font-size: 44px;
+  }
+  .weather h2 {
+    font-size: 30px;
+  }
+
+  .weather-icon {
+    max-width: 120px;
+  }
+
+  .details {
+    margin-top: 10px;
+    gap: 10px;
+  }
+
+  .search input {
+    height: 40px;
+  }
+
+  .search button {
+    height: 40px;
+  }
+
+  .col img {
+    width: 30px;
+    margin-right: 10px;
+  }
+
+  .humidity,
+  .wind {
+    font-size: 22px;
+    margin-top: -6px;
+  }
+
+  .footer {
+    font-size: 14px;
+    margin-top: 8px;
+    margin-bottom: 0;
   }
 }
