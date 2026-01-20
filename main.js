@@ -1,16 +1,12 @@
 // ==============================
-// Minimal Weather App JS - v1.0 Final
-// Features: Animated placeholder, loading spinner, fade-in weather, localStorage, responsive, accessibility
+// Minimal Weather App JS - v1.5 Ultimate
+// Features: Animated placeholder, blinking gradient cursor, instant lastCity update, responsive, fade-in weather
 // ==============================
 
-// API configuration
 const apiKey = "029e72f96a6264c206b122ea1a6ef5ad";
 const apiUrl =
   "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-// ==============================
-// DOM ELEMENTS
-// ==============================
 const form = document.querySelector(".search");
 const searchInput = form.querySelector("input");
 const tempDisplay = document.querySelector(".temp");
@@ -22,9 +18,6 @@ const weatherSection = document.querySelector(".weather");
 const errorDisplay = document.querySelector(".error");
 const loadingSpinner = document.querySelector(".loading");
 
-// ==============================
-// Weather icons mapping
-// ==============================
 const iconMap = {
   Clouds: "./images/clouds.png",
   Clear: "./images/clear.png",
@@ -35,13 +28,8 @@ const iconMap = {
 };
 
 // ==============================
-// FUNCTIONS
+// Weather Functions
 // ==============================
-
-/**
- * Show error message and hide weather
- * @param {string} message
- */
 function showError(message) {
   errorDisplay.textContent = message;
   errorDisplay.style.display = "block";
@@ -49,15 +37,11 @@ function showError(message) {
   loadingSpinner.style.display = "none";
 }
 
-/**
- * Display weather data
- * @param {object} data
- */
 function displayWeather(data) {
   tempDisplay.textContent = Math.round(data.main.temp) + "°C";
   cityDisplay.textContent = data.name;
   humidityDisplay.textContent = data.main.humidity + "%";
-  windDisplay.textContent = Math.round(data.wind.speed * 3.6) + " km/h"; // convert m/s → km/h
+  windDisplay.textContent = Math.round(data.wind.speed * 3.6) + " km/h";
 
   const weatherType = data.weather[0].main;
   weatherIcon.src = iconMap[weatherType] || "./images/default.png";
@@ -65,46 +49,30 @@ function displayWeather(data) {
 
   errorDisplay.style.display = "none";
 
-  // Fade-in weather content
   weatherSection.classList.remove("show");
   setTimeout(() => weatherSection.classList.add("show"), 50);
 
-  // Hide loading
   loadingSpinner.style.display = "none";
-
-  // Clear input
   searchInput.value = "";
+  searchInput.blur();
 
-  // Save last searched city
   localStorage.setItem("lastCity", data.name);
 
-  // Update placeholder animation
-  startPlaceholderAnimation();
+  typePlaceholderInstant();
 }
 
-/**
- * Fetch weather data
- * @param {string} city
- */
 async function checkWeather(city) {
   try {
-    // Show loading spinner
     loadingSpinner.style.display = "block";
-
     const response = await fetch(`${apiUrl}${city}&appid=${apiKey}`);
     if (!response.ok) throw new Error("Invalid city name");
-
     const data = await response.json();
     displayWeather(data);
-  } catch (err) {
+  } catch {
     showError("Invalid or empty city name");
   }
 }
 
-/**
- * Handle form submission
- * @param {Event} e
- */
 function handleFormSubmit(e) {
   e.preventDefault();
   const city = searchInput.value.trim();
@@ -113,46 +81,100 @@ function handleFormSubmit(e) {
 }
 
 // ==============================
-// Animated placeholder logic
-// Smooth fade and updates even while typing
+// Enter Key Handling
 // ==============================
-let placeholderInterval;
+searchInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    handleFormSubmit(e);
+    searchInput.blur();
+  }
+});
 
-function startPlaceholderAnimation() {
-  clearInterval(placeholderInterval);
+// ==============================
+// Animated Placeholder Logic v1.5
+// ==============================
+let typingTimeout;
+let typingIndex = 0;
+let currentText = "";
+let placeholderTexts = [];
+let textIndex = 0;
+
+function startTypingAnimation() {
+  clearTimeout(typingTimeout);
 
   const lastCity = localStorage.getItem("lastCity");
-  const texts = ["Enter a city name"];
-  if (lastCity) texts.push(`Last searched: ${lastCity}`);
+  placeholderTexts = ["Enter a city name"];
+  if (lastCity) placeholderTexts.push(`Last searched: ${lastCity}`);
 
-  let index = 0;
+  textIndex = 0;
+  typeNextText();
+}
 
-  function animate() {
-    // Only update placeholder if user is not typing
-    if (document.activeElement !== searchInput) {
-      searchInput.setAttribute("placeholder", texts[index]);
-      index = (index + 1) % texts.length;
-    }
-    placeholderInterval = setTimeout(animate, 1500); // 1.5s per text
+function typeNextText() {
+  if (document.activeElement === searchInput) {
+    typingTimeout = setTimeout(typeNextText, 1500);
+    return;
   }
 
-  animate();
+  currentText = "";
+  typingIndex = 0;
+  const fullText = placeholderTexts[textIndex];
+  const speed = Math.max(50, 200 / fullText.length);
+
+  searchInput.classList.add("placeholder-cursor");
+
+  function typeLetter() {
+    if (typingIndex < fullText.length) {
+      currentText += fullText[typingIndex];
+      searchInput.setAttribute("placeholder", currentText);
+      typingIndex++;
+      typingTimeout = setTimeout(typeLetter, speed);
+    } else {
+      typingTimeout = setTimeout(() => {
+        textIndex = (textIndex + 1) % placeholderTexts.length;
+        typeNextText();
+      }, 1000);
+    }
+  }
+
+  typeLetter();
+}
+
+function typePlaceholderInstant() {
+  clearTimeout(typingTimeout);
+
+  const lastCity = localStorage.getItem("lastCity");
+  const text = lastCity ? `Last searched: ${lastCity}` : "Enter a city name";
+
+  currentText = "";
+  typingIndex = 0;
+  const speed = Math.max(30, 150 / text.length);
+
+  searchInput.classList.add("placeholder-cursor");
+
+  function typeLetter() {
+    if (typingIndex < text.length) {
+      currentText += text[typingIndex];
+      searchInput.setAttribute("placeholder", currentText);
+      typingIndex++;
+      typingTimeout = setTimeout(typeLetter, speed);
+    } else {
+      startTypingAnimation();
+    }
+  }
+
+  typeLetter();
 }
 
 // ==============================
 // Initialize App
 // ==============================
 function loadLastCity() {
-  startPlaceholderAnimation();
-
+  startTypingAnimation();
   const lastCity = localStorage.getItem("lastCity");
-  if (lastCity) checkWeather(lastCity); // Show last searched city automatically
+  if (lastCity) checkWeather(lastCity);
 }
 
-// ==============================
-// Event listener
-// ==============================
 form.addEventListener("submit", handleFormSubmit);
-
-// Start the app
 loadLastCity();

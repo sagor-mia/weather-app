@@ -112,6 +112,37 @@ body {
   position: relative;
 }
 
+/* ==============================
+   Placeholder & Cursor v1.5
+============================== */
+@keyframes blink {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
+
+.search input::placeholder {
+  transition: opacity 0.3s ease;
+  opacity: 1;
+}
+
+.placeholder-cursor::after {
+  content: "|";
+  display: inline-block;
+  margin-left: 1px;
+  animation: blink 1s infinite;
+  background: linear-gradient(90deg, #00feba, #5b548a, #f87171);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+}
+
 .search button {
   border: none;
   outline: none;
@@ -298,7 +329,6 @@ body {
   .weather-icon {
     margin-top: 10px;
   }
-
   .details {
     margin-top: 20px;
   }
@@ -328,7 +358,6 @@ body {
     padding: 20px 18px;
     margin: 20px auto 0;
   }
-
   .weather {
     margin-top: 10px;
   }
@@ -338,35 +367,28 @@ body {
   .weather h2 {
     font-size: 30px;
   }
-
   .weather-icon {
     max-width: 120px;
   }
-
   .details {
     margin-top: 10px;
     gap: 10px;
   }
-
   .search input {
     height: 40px;
   }
-
   .search button {
     height: 40px;
   }
-
   .col img {
     width: 30px;
     margin-right: 10px;
   }
-
   .humidity,
   .wind {
     font-size: 22px;
     margin-top: -6px;
   }
-
   .footer {
     font-size: 14px;
     margin-top: 8px;
