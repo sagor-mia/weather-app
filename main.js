@@ -1,4 +1,8 @@
-const apiKey = "029e72f96a6264c206b122ea1a6ef5ad";
+// Frontend-only demo project
+// Uses a public OpenWeatherMap API key
+// Key is intentionally public and project-specific
+const apiKey = "ea4dde04c8140c4832a7f2b006edadcd";
+
 const apiUrl =
   "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
